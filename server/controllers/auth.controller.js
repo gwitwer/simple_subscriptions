@@ -111,7 +111,8 @@ export function getFinishAuth(req, res) {
               //     }
               //   });
               // });
-              res.redirect(`https://${name}.myshopify.com/admin/apps/${appName}`);
+              // res.redirect(`https://${name}.myshopify.com/admin/apps/${appName}`);
+              res.redirect('/');
             });
           } else {
             console.log('err', err);
@@ -120,7 +121,8 @@ export function getFinishAuth(req, res) {
       } else {
         console.log('Already did "finish_auth"');
         if (true || isValidAccount(shop)) {
-          res.redirect(`https://${name}.myshopify.com/admin/apps/${appName}`);
+          // res.redirect(`https://${name}.myshopify.com/admin/apps/${appName}`);
+          res.redirect('/');
         } else {
           upgradeAccount(shop, (error, response) => res.redirect(response.recurring_application_charge.confirmation_url));
         }
