@@ -183,13 +183,11 @@ app.use((req, res, next) => {
     return fetchComponentData(store, renderProps.components, renderProps.params)
       .then(() => {
         const initialView = renderToString(
-          <AppProvider>
-            <Provider store={store}>
-              <IntlWrapper>
-                <RouterContext {...renderProps} />
-              </IntlWrapper>
-            </Provider>
-          </AppProvider>
+          <Provider store={store}>
+            <IntlWrapper>
+              <RouterContext {...renderProps} />
+            </IntlWrapper>
+          </Provider>
         );
         const finalState = store.getState();
 

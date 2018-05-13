@@ -15,15 +15,13 @@ require('./main.css');
 
 export default function App(props) {
   return (
-    <AppProvider>
-      <Provider store={props.store}>
-        <IntlWrapper>
-          <Router history={browserHistory}>
-            {routes}
-          </Router>
-        </IntlWrapper>
-      </Provider>
-    </AppProvider>
+    <Provider store={props.store}>
+      <IntlWrapper>
+        <Router history={browserHistory}>
+          {routes}
+        </Router>
+      </IntlWrapper>
+    </Provider>
   );
 }
 
