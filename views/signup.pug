@@ -1,0 +1,48 @@
+extends layout
+
+block content
+  div
+    h1 Sign Up
+    form
+      div
+        label(for="email") Email
+        input#email(type="email", name="email")
+      div
+        label(for="pass") Password
+        input#pass(type="password", name="pass")
+      div
+        label(for="confirm") Confirm Password
+        input#confirm(type="password", name="confirm")
+      div
+        label(for="secret") Kynect Secret Code
+        input#secret(type="text", name="secret")
+      div
+        input(type="submit", value="Submit")
+    
+    script.
+      document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var email = document.querySelector('#email').value;
+        var pass = document.querySelector('#pass').value;
+        var confirm = document.querySelector('#confirm').value;
+        var secret = document.querySelector('#secret').value;
+        
+        if (pass === confirm) {
+          axios
+            .post('/auth/signup', { email: email, pass: pass, secret: secret })
+            .then(function(response) {
+              console.log(response);
+              if (response.data.success) {
+                window.location = window.location.href.split('/').slice(0,3).join('/');
+              } else {
+                console.log('No success');
+              }
+            })
+            .catch(function(err) {
+              console.log(err);
+            })  
+        } else {
+          console.log('Passwords do not match');
+        }
+      });
+    
