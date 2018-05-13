@@ -10,8 +10,7 @@ module.exports = Shop => {
     } else {
       console.log(`FIND ${name}`);
       Shop.findOne({ name }, (err, shop) => {
-        console.log(!!shop, (shop && shop.access_token));
-        console.log(`${shopifyCreds.redirect_uri}/finish_auth`);
+        console.log(!!shop, shop.access_token);
         if (err) console.log('ERR: ', err);
         if (shop && shop.access_token && !shop.installing) {
           console.log('callback', shop.name, shop.access_token)
@@ -21,7 +20,7 @@ module.exports = Shop => {
             shop: name,
             shopify_api_key: shopifyCreds.key,
             access_token: shopifyCreds.secret,
-            redirect_uri: `${shopifyCreds.redirect_uri}/finish_auth`,
+            redirect_uri: `${shopifyCreds.redirect_uri}/auth/finish_auth`,
             shopify_scope: 'read_customers, read_content, write_content, write_customers', // https://help.shopify.com/api/getting-started/authentication/oauth#scopes
             nonce: shop._id.toString()
           });
@@ -36,7 +35,7 @@ module.exports = Shop => {
               shop: name,
               shopify_api_key: shopifyCreds.key,
               access_token: shopifyCreds.secret,
-              redirect_uri: `${shopifyCreds.redirect_uri}/finish_auth`,
+              redirect_uri: `${shopifyCreds.redirect_uri}/auth/finish_auth`,
               shopify_scope: 'read_customers, read_content, write_content, write_customers', // https://help.shopify.com/api/getting-started/authentication/oauth#scopes
               nonce: s._id.toString()
             });
