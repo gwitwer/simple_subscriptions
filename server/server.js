@@ -3,6 +3,7 @@ import compression from 'compression';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import path from 'path';
+import cors from 'cors';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 import initialAppState from '../client/modules/App/util/app.state.initial.js';
 import { AppProvider } from "@shopify/polaris";
@@ -88,6 +89,7 @@ app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use(Express.static(path.resolve(__dirname, '../dist/client')));
 app.set('views', path.join(__dirname, '../', 'views'));
 app.set('view engine', 'pug');
+app.use(cors());
 app.use('/auth', auth);
 app.use('/api', api);
 
