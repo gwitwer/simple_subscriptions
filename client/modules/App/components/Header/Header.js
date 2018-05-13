@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
+import { DisplayText } from "@shopify/polaris";
 
 // Import Style
 import styles from './Header.css';
@@ -8,9 +9,9 @@ export function Header(props, context) {
   return (
     <div className={styles.header}>
       <div className={styles.content}>
-        <h1 className={styles['site-title']}>
+        <DisplayText size="large">
           <Link to="/" >Simple Subsriptions</Link>
-        </h1>
+        </DisplayText>
         {
           context.router.isActive('/', true)
             ? <a className={styles['add-post-button']} href="#" onClick={props.toggleAddPost}>Add Post</a>
@@ -26,7 +27,6 @@ Header.contextTypes = {
 };
 
 Header.propTypes = {
-  toggleAddPost: PropTypes.func.isRequired,
 };
 
 export default Header;

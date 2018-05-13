@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import { Provider } from 'react-redux';
+import { AppProvider } from "@shopify/polaris";
 import { Router, browserHistory } from 'react-router';
 import IntlWrapper from './modules/Intl/IntlWrapper';
 
@@ -14,13 +15,15 @@ require('./main.css');
 
 export default function App(props) {
   return (
-    <Provider store={props.store}>
-      <IntlWrapper>
-        <Router history={browserHistory}>
-          {routes}
-        </Router>
-      </IntlWrapper>
-    </Provider>
+    <AppProvider>
+      <Provider store={props.store}>
+        <IntlWrapper>
+          <Router history={browserHistory}>
+            {routes}
+          </Router>
+        </IntlWrapper>
+      </Provider>
+    </AppProvider>
   );
 }
 

@@ -46,9 +46,7 @@ export class App extends Component {
               },
             ]}
           />
-          <Header
-            toggleAddPost={this.toggleAddPostSection}
-          />
+          <Header />
           <div className={styles.container}>
             {this.props.children}
           </div>

@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import IntlWrapper from '../client/modules/Intl/IntlWrapper';
 import initialAppState from '../client/modules/App/util/app.state.initial.js';
+import { AppProvider } from "@shopify/polaris";
 
 // Webpack Requirements
 import webpack from 'webpack';
@@ -180,11 +181,13 @@ app.use((req, res, next) => {
     return fetchComponentData(store, renderProps.components, renderProps.params)
       .then(() => {
         const initialView = renderToString(
-          <Provider store={store}>
-            <IntlWrapper>
-              <RouterContext {...renderProps} />
-            </IntlWrapper>
-          </Provider>
+          <AppProvider>
+            <Provider store={store}>
+              <IntlWrapper>
+                <RouterContext {...renderProps} />
+              </IntlWrapper>
+            </Provider>
+          </AppProvider>
         );
         const finalState = store.getState();
 

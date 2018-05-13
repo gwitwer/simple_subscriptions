@@ -6,26 +6,24 @@
 */
 
 import React, { PropTypes, Component } from 'react';
-import { AppProvider, Page, Card, Button } from "@shopify/polaris";
+import { DisplayText } from "@shopify/polaris";
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-
-// Import Selectors
-import { getUser } from '../../../App/AppReducer';
 
 class AdminDashboard extends Component {
 
   componentWillMount() {
-    if (!this.props.user || this.props.user.type !== 'admin') {
-      this.context.router.push('/');
-    }
+    // This is for stopping unauthorized access of this page
+    // if (!this.props.user || this.props.user.type !== 'admin') {
+    //   this.context.router.push('/');
+    // }
   }
 
   render() {
     return (
       <div>
-        My coupons
-        My subscriptions
+        <div>My coupons</div>
+        <div>My subscriptions</div>
       </div>
     );
   }
@@ -37,16 +35,10 @@ AdminDashboard.need = [];
 // Retrieve data from store as props
 function mapStateToProps(state) {
   return {
-    user: getUser(state),
   };
 }
 
 AdminDashboard.propTypes = {
-  user: PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    cuid: PropTypes.string.isRequired,
-  }).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 
