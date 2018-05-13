@@ -11,6 +11,9 @@ module.exports = Shop => {
       console.log(`FIND ${name}`);
       Shop.findOne({ name }, (err, shop) => {
         console.log(!!shop, shop.access_token);
+        if (typeof(shop.installing) === 'undefined') {
+          shop.installing = true;
+        }
         if (err) console.log('ERR: ', err);
         if (shop && shop.access_token && !shop.installing) {
           console.log('callback', shop.name, shop.access_token)
