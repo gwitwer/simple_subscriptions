@@ -143,6 +143,7 @@ const renderError = err => {
 // Logged in middleware for main app
 app.use((req, res, next) => {
   console.log('CHECK LOGIN');
+  console.log(req.query);
   if (req.query.shop) {
     createNewAccountAndRedirect(req.query.shop.split('.')[0], res, shop => {
       const Shopify = makeShopify(shop);

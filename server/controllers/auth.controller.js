@@ -78,8 +78,10 @@ export function getFinishAuth(req, res) {
   Shop.findOne({ name }, (err, shop) => {
     if (shop) {
       const Shopify = makeShopifyPostAuth(name)(shop._id.toString())(query.code);
+      console.log(shop)
       if (shop.installing) {
         Shopify.exchange_temporary_token(query, (err, data) => {
+          console.log('here', data);
           if (data && data.access_token) {
             shop.access_token = data.access_token;
             shop.installing = false;
@@ -111,8 +113,7 @@ export function getFinishAuth(req, res) {
               //     }
               //   });
               // });
-              // res.redirect(`https://${name}.myshopify.com/admin/apps/${appName}`);
-              res.redirect('/');
+              res.redirect(`https://${name}.myshopify.com/admin/apps/${appName}`);
             });
           } else {
             console.log('err', err);
@@ -121,14 +122,13 @@ export function getFinishAuth(req, res) {
       } else {
         console.log('Already did "finish_auth"');
         if (true || isValidAccount(shop)) {
-          // res.redirect(`https://${name}.myshopify.com/admin/apps/${appName}`);
-          res.redirect('/');
+          res.redirect(`https://${name}.myshopify.com/admin/apps/${appName}`);
         } else {
           upgradeAccount(shop, (error, response) => res.redirect(response.recurring_application_charge.confirmation_url));
         }
       }
     } else {
-      res.redirect('/login');
+      res.redirect('/auth/login');
     }
   });
 }

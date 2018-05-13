@@ -6,6 +6,7 @@ const shopSchema = new Schema({
 	charge_id: { type: Number },
 	dateCreated: { type: Number },
 	email: { type: String },
+	installing: { type: Boolean },
 	name: { type: String, required: true, unique: true },
 });
 
