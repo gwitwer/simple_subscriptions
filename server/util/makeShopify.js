@@ -27,7 +27,7 @@ const makeShopifyPreAuth = shop => nonce => (
     nonce,
     shopify_api_key: shopifyCreds.key,
     access_token: shopifyCreds.secret,
-    redirect_uri: `${shopifyCreds.redirect_uri}/finish_auth`,
+    redirect_uri: `${shopifyCreds.redirect_uri}/auth/finish_auth`,
     shopify_scope: 'read_customers, read_orders, read_themes, write_customers', // https://help.shopify.com/api/getting-started/authentication/oauth#scopes
   })
 );
