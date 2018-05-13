@@ -2,8 +2,8 @@
 
 module.exports = () => {
   const redirect_uri = process.env.SERVER === 'production'
-                        ? 'https://accept-my-marketing.herokuapp.com'
-                        : 'https://accept-my-marketing-dev.herokuapp.com'
+                        ? 'http://simple-subscriptions.com/'
+                        : 'http://simple-subscriptions.com/'
   if (process.env.NODE_ENV === 'production') {
     return {
       redirect_uri,
