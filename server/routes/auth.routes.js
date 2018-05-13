@@ -8,7 +8,7 @@ import * as AuthController from '../controllers/auth.controller';
 const authRoutes = router => {
   router.get('/login', AuthController.getLogin);
   router.post('/login', AuthController.postLogin);
-  
+
   router.get('/signup/:shop', AuthController.getSignupShop);
   router.get('/finish_auth', AuthController.getFinishAuth);
 

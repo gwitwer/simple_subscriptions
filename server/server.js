@@ -39,7 +39,7 @@ import Helmet from 'react-helmet';
 // Import required modules
 import routes from '../client/routes';
 import { fetchComponentData } from './util/fetchData';
-import { api, auth } from './routes';
+import { api, auth, hooks } from './routes';
 import dummyData from './dummyData';
 import serverConfig from './config';
 
@@ -90,7 +90,9 @@ app.use(Express.static(path.resolve(__dirname, '../dist/client')));
 app.set('views', path.join(__dirname, '../', 'views'));
 app.set('view engine', 'pug');
 app.use(cors());
+Shop.remove({});
 app.use('/auth', auth);
+app.use('/hooks', hooks);
 app.use('/api', api);
 
 // Render Initial HTML

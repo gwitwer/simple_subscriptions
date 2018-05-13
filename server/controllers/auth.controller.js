@@ -90,30 +90,21 @@ export function getFinishAuth(req, res) {
                 console.log('????', err);
               }
 
-              // const NewShopify = makeShopify(shop);
-              // NewShopify.post('/admin/webhooks.json', {
-              //   webhook: {
-              //     address: `https://${appName}-hooks.herokuapp.com/hooks/uninstall`,
-              //     topic: 'app/uninstalled'
-              //   }
-              // }, () => {
-              //   console.log('created uninstall hook');
-              //   NewShopify.post('/admin/webhooks.json', {
-              //     webhook: {
-              //       address: `https://${appName}-hooks.herokuapp.com/hooks/updateCustomer`,
-              //       topic: 'customers/update'
-              //     }
-              //   }, response => {
-              //     console.log(response);
-              //     console.log('created customer update hook, redirecting to app');
-              //     if (true || isValidAccount(shop)) {
-              //       res.redirect(`https://${name}.myshopify.com/admin/apps/${appName}`);
-              //     } else {
-              //       upgradeAccount(shop, (error, response) => res.redirect(response.recurring_application_charge.confirmation_url));
-              //     }
-              //   });
-              // });
-              res.redirect(`https://${name}.myshopify.com/admin/apps/${appName}`);
+              const NewShopify = makeShopify(shop);
+              NewShopify.post('/admin/webhooks.json', {
+                webhook: {
+                  address: `https://${appName}.com/hooks/uninstall`,
+                  topic: 'app/uninstalled'
+                }
+              }, response => {
+                console.log(response);
+                console.log('created uninstall hook, redirecting to app');
+                if (true || isValidAccount(shop)) {
+                  res.redirect(`https://${name}.myshopify.com/admin/apps/${appName}`);
+                } else {
+                  upgradeAccount(shop, (error, response) => res.redirect(response.recurring_application_charge.confirmation_url));
+                }
+              });
             });
           } else {
             console.log('err', err);
