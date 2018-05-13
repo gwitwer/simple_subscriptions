@@ -6,7 +6,8 @@ import * as HooksController from '../controllers/hooks.controller';
  * @returns void
  */
 const hookRoutes = router => {
-  router.get('/uninstall', HooksController.uninstall);
+  router.get('/uninstall', (req, res) => res.redirect('/'));
+  router.post('/uninstall', HooksController.uninstall);
 };
 
 export default hookRoutes;
