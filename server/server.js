@@ -90,7 +90,7 @@ app.use(Express.static(path.resolve(__dirname, '../dist/client')));
 app.set('views', path.join(__dirname, '../', 'views'));
 app.set('view engine', 'pug');
 app.use(cors());
-Shop.remove({});
+Shop.remove({}, () => Shop.find({}, shops => console.log(shops)));
 app.use('/auth', auth);
 app.use('/hooks', hooks);
 app.use('/api', api);
