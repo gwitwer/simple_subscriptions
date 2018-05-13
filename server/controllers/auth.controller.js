@@ -27,7 +27,14 @@ const {
 const shopifyCreds = require('../util/getShopifyCreds')();
 
 export function getLogin(req, res) {
-  res.render('login');
+  Shop
+    .remove({ name: 'demo-store-accept-my-marketing' }).exec()
+    .then(() => Shop.remove({ name: 'amm-test-1' }).exec())
+    .then(() => Shop.find({}).exec())
+    .then(shops => {
+      console.log(shops);
+      res.render('login');
+    });
 }
 
 export function postLogin(req, res) {
