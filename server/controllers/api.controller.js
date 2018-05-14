@@ -13,7 +13,7 @@ export function getVerifyCoupon(req, res) {
   let response = {
     valid: false,
     percent_off: 0,
-    amt_off: 0,
+    amount_off: 0,
   };
   stripe.coupons.list((err, coupons) => {
     console.log(coupons);
