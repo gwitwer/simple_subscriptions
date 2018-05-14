@@ -11,3 +11,4 @@ coverage/
 kynect-key-pair.pem
 db/
 config/keys
+doStripe.js

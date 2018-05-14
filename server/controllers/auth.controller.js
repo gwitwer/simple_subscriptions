@@ -27,6 +27,14 @@ const {
 const shopifyCreds = require('../util/getShopifyCreds')();
 
 export function getLogin(req, res) {
+  // Shop
+  //   .remove({ name: 'demo-store-accept-my-marketing' }).exec()
+  //   .then(() => Shop.remove({ name: 'amm-test-1' }).exec())
+  //   .then(() => Shop.find({}).exec())
+  //   .then(shops => {
+  //     console.log(shops);
+  //     res.render('login');
+  //   });
   res.render('login');
 }
 
@@ -113,6 +121,7 @@ export function getFinishAuth(req, res) {
       } else {
         console.log('Already did "finish_auth"');
         if (true || isValidAccount(shop)) {
+          // Make page for checkout here? no -- don't create page automatically.
           res.redirect(`https://${name}.myshopify.com/admin/apps/${appName}`);
         } else {
           upgradeAccount(shop, (error, response) => res.redirect(response.recurring_application_charge.confirmation_url));
