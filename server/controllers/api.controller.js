@@ -22,6 +22,7 @@ export function getVerifyCoupon(req, res) {
         Object.keys(response).forEach(k => {
           response[k] = coupons[k];
         });
+        console.log(response);
       }
     });
 
