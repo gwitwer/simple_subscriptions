@@ -20,7 +20,7 @@ export function getVerifyCoupon(req, res) {
     coupons.data.forEach(coupon => {
       if (coupon.id === id) {
         Object.keys(response).forEach(k => {
-          response[k] = coupons[k];
+          response[k] = coupon[k];
         });
         console.log(response);
       }
