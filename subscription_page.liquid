@@ -1,0 +1,363 @@
+<style>
+  .bold-form-group {
+    margin-bottom: 15px;
+  }
+  .bold-form-group label {
+    font-weight: bold;
+    font-size: 12px;
+    color: #000000;
+    font-style:normal;
+    padding-top:14px;
+    padding-bottom:2px;
+    padding-left:0px;
+    padding-right:0px;
+    display:block;
+    text-decoration: none;
+    width:25%;
+  }
+
+  .bold-form-group input, .bold-form-group select, .bold-form-group textarea {
+    display: block;
+    width:100%;
+    height:35px;
+    border-radius:3px;
+    box-sizing:border-box;
+    padding: 2px;
+  }
+
+  .bold-mem-description {
+    margin-bottom: 30px;
+    font-weight: 650;
+    font-size: 14px;
+    color: #000000;
+    font-style:normal;
+    text-decoration: none;
+  }
+  .bold-mem-container {
+    display: none;
+    width: 100%;
+    margin: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  .bold-mem-container h1 {
+    font-size: 30px;
+    border-bottom: 1px solid #E7E7E7;
+    color: #58C558;
+    font-weight: 0;
+    font-style:normal;
+    text-decoration: none;
+    padding: 13px 0;
+  }
+  input.my-error-class, textarea.my-error-class, select.my-error-class {
+    border:1px solid #FF0000;
+  }
+  label.my-error-class {
+    color: #ff0000;
+    font-size: 100%;
+  }
+  #subscriptionBoxInfo {
+    padding:10px;
+    margin-top: 10px;
+    background-color: #58C558;
+    font-size: 13px;
+    color: #000000;
+    font-weight:normal;
+    font-style:normal;
+    text-decoration:none;
+  }
+
+  <!-- Modal style settings-->
+  .bold-form-group-modal {
+    margin-bottom: 15px;
+  }
+
+  .bold-form-group-modal label {
+    font-weight: bold;
+    font-size: 12px;
+    color: #000000;
+    font-style:normal;
+    padding-top:14px;
+    padding-bottom:2px;
+    padding-left:0px;
+    padding-right:0px;
+    display:block;
+    text-decoration: none;
+    width:25%;
+  }
+
+  .bold-form-group-modal input, .bold-form-group-modal select, .bold-form-group-modal textarea {
+    display: block;
+    width:100%;
+    height:35px;
+    border-radius:3px;
+    box-sizing:border-box;
+    padding: 2px;
+  }
+
+  .bold-mem-createaccount-intro, .bold-mem-description-modal {
+    margin-bottom: 30px;
+    font-weight: 650;
+    font-size: 12px;
+    color: #000000;
+    font-style:italic;
+    text-decoration: none;
+  }
+
+  .bold-mem-container-modal {
+    display: none;
+    width: 100%;
+    margin: 2px;
+    padding: 2px;
+    box-sizing: border-box;
+  }
+
+  #modalPlanName {
+    font-size: 25px;
+    border-bottom: 1px solid #E7E7E7;
+    color: #58c558;
+    font-weight: bold;
+    font-style:normal;
+    text-decoration: none;
+    padding: 13px 0;
+  }
+
+  }
+  input.my-error-class, textarea.my-error-class, select.my-error-class {
+    border:1px solid #FF0000;
+  }
+
+  label.my-error-class {
+    color: #ff0000;
+    font-size: 100%;
+  }
+
+  #modalSubscriptionBoxInfo {
+    padding:10px;
+    margin-top: 10px;
+    background-color: #EFEFEF;
+    font-size: 13px;
+    color: #58C558;
+    font-weight:normal;
+    font-style:normal;
+    text-decoration:none;
+  }
+
+</style>
+<style>
+
+  .bold-form-group > label {
+    width: 100%;
+  }
+
+  .ss-form-group {
+    padding-top: 1rem;
+  }
+
+  .ss-form-group > div:first-child {
+    padding-bottom: 0.5rem;
+  }
+
+  .ss-form-group > .bold-form-group{
+    display: flex;
+    align-items: center;
+  }
+
+  .ss-form-group > .bold-form-group > input {
+    max-width: 120px;
+    text-align: right;
+  }
+
+  .ss-form-group > .bold-form-group > select {
+    max-width: 150px;
+  }
+
+  .ss-form-group > .bold-form-group > label {
+    width: auto;
+    padding: 0 1rem;
+    font-size: 14px;
+  }
+
+  .bold-form-group > .ss-coupon-group {
+    display: flex;
+  }
+
+  .bold-form-group > .ss-coupon-group > input {
+    margin-right: 1rem;
+    max-width: 250px;
+  }
+
+  .bold-form-group > .ss-coupon-group > input[type="button"] {
+    margin-right: 0;
+    width: 120px;
+    pointer: clicker;
+    pointer: hand;
+  }
+
+  .subscription-total {
+    font-weight: 700;
+    font-size: 1.4rem;
+    padding: 1rem 0 2rem;
+  }
+
+  .msg {
+    height: 22px;
+    font-size: 12px;
+    padding: 4px 0 0;
+  }
+
+  .msg.err {
+    color: #DE3618;
+  }
+
+  .msg.ok {
+    color: #00CE4C;
+  }
+
+</style>
+<div class="page-width">
+  <div class="grid">
+    <div class="grid__item medium-up--five-sixths medium-up--push-one-twelfth">
+      <div class="section-header text-center">
+        <h1>{{ page.title }}</h1>
+      </div>
+      <div class="rte">
+		<div class="bold-form-group">
+          <label>First name</label>
+          <input type="text">
+        </div>
+        <div class="bold-form-group">
+          <label>Last name</label>
+          <input type="text">
+        </div>
+        <div class="bold-form-group">
+          <label>Email</label>
+          <input type="email">
+        </div>
+        <div class="bold-form-group">
+          <label>Tell us about your company and writing goals!</label>
+          <textarea class="answer"></textarea>
+        </div>
+        <div class="bold-form-group">
+          <label>Coupon code</label>
+          <div class="ss-coupon-group">
+          	<input type="text" id="coupon">
+            <input type="button" value="Apply" id="apply-coupon">
+          </div>
+          <div class="msg"></div>
+        </div>
+        <div class="ss-form-group">
+          <div>Build your subscription plan</div>
+          <div class="bold-form-group">
+            <input type="number" id="articles" value="1" min="1">
+            <label>articles per day</label>
+          </div>
+        </div>
+        <div class="subscription-total">
+          <span id="total">$490.00</span> / month
+        </div>
+        <script src="https://checkout.stripe.com/checkout.js"></script>
+
+        <input type="button" id="subscribe-btn" class="btn" value="Subscribe">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var loadScript = function(url, callback){
+
+
+    var script = document.createElement("script")
+    script.type = "text/javascript";
+
+    if (script.readyState){  //IE
+        script.onreadystatechange = function(){
+            if (script.readyState == "loaded" ||
+                    script.readyState == "complete"){
+                script.onreadystatechange = null;
+                callback();
+            }
+        };
+    } else {  //Others
+        script.onload = function(){
+            callback();
+        };
+    }
+
+    script.src = url;
+    document.getElementsByTagName("head")[0].appendChild(script);
+
+  };
+
+  var simpleSubscriptionCheckout = function($){
+    var toUsd = function(x) {
+      return parseFloat(x).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    };
+
+    var makeFormFunction = function(quantity) {
+      return function(e) {
+        // Open Checkout with further options:
+        handler.open({
+          name: 'Standard Subscription',
+          description: quantity + ' article' + (quantity > 1 ? 's' : '') + ' per day, billed monthly',
+          amount: 49000 * quantity
+        });
+        e.preventDefault();
+      }
+    }
+
+    var updateTotal = function() {
+      var quantity = parseInt($('#articles').val());
+      if (quantity <= 0) {
+        $('#subscribe-btn').attr('disabled', true);
+        $('#total').text(toUsd(0));
+      } else {
+        $('#subscribe-btn').attr('disabled', false);
+        $('#subscribe-btn').off();
+        $('#subscribe-btn').on('click', makeFormFunction(quantity));
+        $('#total').text(toUsd(490 * quantity));
+      }
+    };
+
+    var handler = StripeCheckout.configure({
+      key: 'pk_test_NMb13SXp3NvTNFTDqMhLj5bu',
+      image: 'https://cdn.shopify.com/s/files/1/3099/3730/files/Logo_180x.png?v=1520412713',
+      locale: 'auto',
+      token: function(token) {
+        console.log(token);
+      }
+    });
+
+    // Close Checkout on page navigation:
+    window.addEventListener('popstate', function() {
+      handler.close();
+    });
+
+    $('#articles').on('change', function(e) {
+      updateTotal();
+    });
+
+    $('#apply-coupon').on('click', function(e) {
+      $.get('https://simple-subscriptions/api/verify/' + $('#coupon').val(), function(err, response) {
+        // NOTE: In the future, create a Shopify object and pass the id.
+        // Verify the shopify object id and restrict the number of instances to prevent brute-forcing.
+        // Also need to pass store name, of course.
+        console.log(err, response);
+        $('.msg').removeClass('err').addClass('ok').text('Coupon applied!');
+        $('.msg').removeClass('ok').addClass('err').text('Invalid coupon code.');
+      });
+    });
+
+    $('#subscribe-btn').on('click', makeFormFunction(1));
+  };
+
+  if ((typeof jQuery === 'undefined') || (parseFloat(jQuery.fn.jquery) < 1.7)) {
+    loadScript('//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js', function(){
+      jQuery191 = jQuery.noConflict(true);
+      myAppJavaScript(jQuery191);
+    });
+  } else {
+    simpleSubscriptionCheckout(jQuery);
+  }
+</script>
