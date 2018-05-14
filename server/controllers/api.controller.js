@@ -35,7 +35,7 @@ export function getVerifyCoupon(req, res) {
           ) &&
           (
             !coupon.redeem_by ||
-            (Date.now() < (redeem_by * 1000))
+            (Date.now() < (coupon.redeem_by * 1000))
           )
         );
         console.log(response);
