@@ -14,9 +14,11 @@ export function getVerifyCoupon(req, res) {
   stripe.coupons.list((err, coupons) => {
     console.log(coupons);
     coupons.data.forEach(coupon => {
-      console.log(coupon, coupon.id, id, coupon.id === id);
-      if (coupon.id === id) valid = true;
-    })
+      if (coupon.id === id && coupon.valid) {
+        valid = true;
+      }
+    });
+
+    res.json({ valid });
   });
-  res.json({ valid });
 }
