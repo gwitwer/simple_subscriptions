@@ -14,6 +14,11 @@ export function getVerifyCoupon(req, res) {
     valid: false,
     percent_off: 0,
     amount_off: 0,
+    duration: 0, // forever, once, or repeating
+    duration_in_months: 0, // if repeating, this is the length of repetition.
+    redeem_by: 0, // need to multiply by 1000 for js
+    max_redemptions: 0, // null for unlimited, otherwise is > 0
+    times_redeemed: 0, // if max_redemptions > 0, times_redeemed must be less than max_redemptions
   };
   stripe.coupons.list((err, coupons) => {
     console.log(coupons);
