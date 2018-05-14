@@ -16,9 +16,9 @@ export function getVerifyCoupon(req, res) {
     amount_off: 0,
     duration: 0, // forever, once, or repeating
     duration_in_months: 0, // if repeating, this is the length of repetition.
-    redeem_by: 0, // need to multiply by 1000 for js
-    max_redemptions: 0, // null for unlimited, otherwise is > 0
-    times_redeemed: 0, // if max_redemptions > 0, times_redeemed must be less than max_redemptions
+    // redeem_by: 0, // need to multiply by 1000 for js
+    // max_redemptions: 0, // null for unlimited, otherwise is > 0
+    // times_redeemed: 0, // if max_redemptions > 0, times_redeemed must be less than max_redemptions
   };
   stripe.coupons.list((err, coupons) => {
     console.log(coupons);
@@ -27,6 +27,17 @@ export function getVerifyCoupon(req, res) {
         Object.keys(response).forEach(k => {
           response[k] = coupon[k];
         });
+        response.valid = (
+          coupon.valid &&
+          (
+            !coupon.max_redemptions ||
+            (coupon.max_redemptions > 0 && coupon.max_redemptions > coupon.times_redeemed)
+          ) &&
+          (
+            !coupon.redeem_by ||
+            (Date.now() < (redeem_by * 1000))
+          )
+        );
         console.log(response);
       }
     });
