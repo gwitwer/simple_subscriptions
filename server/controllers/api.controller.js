@@ -93,6 +93,7 @@ export function postSubscribe(req, res) {
               last_name,
               email,
               verified_email: true,
+              note: 'stripe_customer_id: ' + customer.id,
               metafields: [{
                 key: 'stripe_customer_id',
                 value: customer.id,
