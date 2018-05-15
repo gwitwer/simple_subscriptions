@@ -4,7 +4,6 @@ import Shop from '../models/shop';
 const stripe = stripePackage(getStripeKey());
 
 export function postSubscribe(req, res) {
-  console.log('here', req.body);
   const { email, source, coupon, quantity, pass } = req.body;
   const createCustomer = stripe.customers.create({
     email,
@@ -28,7 +27,6 @@ export function postSubscribe(req, res) {
 };
 
 export function getVerifyCoupon(req, res) {
-  console.log(req.params);
   const id = req.params.coupon;
   let response = {
     id: null,
@@ -42,8 +40,7 @@ export function getVerifyCoupon(req, res) {
     // times_redeemed: 0, // if max_redemptions > 0, times_redeemed must be less than max_redemptions
   };
   stripe.coupons.list((err, coupons) => {
-    console.log(err, coupons);
-    if (coupons.data) {
+    if (!err) {
       coupons.data.forEach(coupon => {
         if (coupon.id === id) {
           Object.keys(response).forEach(k => {
@@ -63,6 +60,8 @@ export function getVerifyCoupon(req, res) {
           console.log(response);
         }
       });
+    } else {
+      console.log(err);
     }
 
     res.json(response);
