@@ -100,6 +100,7 @@ export function postSubscribe(req, res) {
                 value_type: 'string',
                 namespace: 'global'
               }],
+              tags: 'stripe',
               password: pass,
               password_confirmation: pass,
               send_email_welcome: true,
