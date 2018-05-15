@@ -6,8 +6,8 @@ const { findShopByName } = require('../util/queryShop')(Shop);
 const { makeShopify } = require('../util/makeShopify');
 const stripe = stripePackage(getStripeKey());
 
-export function getVerifyCustomer(req, res) {
-  const { email } = req.params;
+export function postVerifyCustomer(req, res) {
+  const { email, shop } = req.body;
 
   if (shop && shop.split('.').length) {
     findShopByName(shop.split('.')[0]).then(s => {

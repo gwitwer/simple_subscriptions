@@ -11,7 +11,7 @@ const apiRoutes = router => {
 
   router.get('/verify/coupon/:coupon', ApiController.getVerifyCoupon);
 
-  router.get('/verify/customer/:customer', ApiController.getVerifyCustomer);
+  router.post('/verify/customer', ApiController.postVerifyCustomer);
 };
 
 export default apiRoutes;
