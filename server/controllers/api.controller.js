@@ -30,6 +30,7 @@ export function getVerifyCoupon(req, res) {
   console.log(req.params);
   const id = req.params.coupon;
   let response = {
+    id: null,
     valid: false,
     percent_off: 0,
     amount_off: 0,
