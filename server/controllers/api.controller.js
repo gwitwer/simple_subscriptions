@@ -2,7 +2,7 @@ import stripePackage from 'stripe';
 import getStripeKey from '../util/getStripeKey';
 import Shop from '../models/shop';
 import errRes from '../util/errRes';
-const { findShopByName } = require('../util/queryShop');
+const { findShopByName } = require('../util/queryShop')(Shop);
 const { makeShopify } = require('../util/makeShopify');
 const stripe = stripePackage(getStripeKey());
 
