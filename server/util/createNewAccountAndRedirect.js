@@ -9,7 +9,6 @@ module.exports = Shop => {
       callback(shopifyCreds.testStore);
     } else {
       console.log(`FIND ${name}`);
-      console.log(shopifyCreds);
       Shop.findOne({ name }, (err, shop) => {
         // console.log(!!shop, shop.access_token);
         // if (typeof(shop.installing) === 'undefined') {
@@ -29,7 +28,6 @@ module.exports = Shop => {
             nonce: shop._id.toString()
           });
           const auth_url = Shopify.buildAuthURL();
-          console.log(auth_url);
           res.redirect(auth_url);
         } else {
           console.log('Creating new account for ' + name);
