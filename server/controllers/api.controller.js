@@ -16,7 +16,7 @@ export function postSubscribe(req, res) {
       coupon,
       quantity,
       customer: customer.id,
-      plan: 'plan_ColfvEHF6Z67MO', // boldmemberships_16604 // TODO: this is entered in the front-end of the app.
+      plan: 'plan_CrdgURQLwHviS0', // boldmemberships_16604 // TODO: this is entered in the front-end of the app.
     });
 
     createSubscription.then(r => {
