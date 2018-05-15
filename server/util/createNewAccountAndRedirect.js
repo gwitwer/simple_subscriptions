@@ -32,6 +32,7 @@ module.exports = Shop => {
           res.redirect(auth_url);
         } else {
           console.log('Creating new account for ' + name);
+          console.log(shopifyCreds);
           (new Shop({ name, installing: true })).save((err, s) => {
             console.log(err, s);
             const Shopify = new shopifyAPI({
