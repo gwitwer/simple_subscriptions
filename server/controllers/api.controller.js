@@ -40,7 +40,7 @@ export function postSubscribe(req, res) {
           // TODO: make shopify customer!
           if (s) {
             const Shopify = makeShopify(s);
-            Shopify.post('/admin/customers.json', {
+            const cObj = {
               first_name,
               last_name,
               email,
@@ -54,12 +54,14 @@ export function postSubscribe(req, res) {
               password: pass,
               password_confirmation: pass,
               send_email_welcome: true,
-            }, (err, shopifyResponse) => {
+            };
+            console.log(cObj);
+            Shopify.post('/admin/customers.json', cObj, (err, shopifyResponse) => {
               if (err) {
                 errRes(res)(err);
               } else {
                 console.log(shopifyResponse);
-                res.status(200).send({ success: true, madeCustomer: true });  
+                res.status(200).send({ success: true, madeCustomer: true });
               }
             });
           } else {
