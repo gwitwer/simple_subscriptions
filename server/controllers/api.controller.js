@@ -5,42 +5,53 @@ import errRes from '../util/errRes';
 const { findShopByName } = require('../util/queryShop')(Shop);
 const { makeShopify } = require('../util/makeShopify');
 const stripe = stripePackage(getStripeKey());
+const verifier = require('email-verify');
 
 export function postVerifyCustomer(req, res) {
   const { email, shop } = req.body;
 
-  if (shop && shop.split('.').length) {
-    findShopByName(shop.split('.')[0]).then(s => {
-      if (s) {
-        const Shopify = makeShopify(s);
-        Shopify.get('/admin/customers/search.json?query=' + email, (err, shopifyResponse) => {
-          if (err) {
-            errRes(res)(err);
-          } else {
-            if (shopifyResponse.customers && shopifyResponse.customers.length > 0) {
-              let matchingCust = false;
-              shopifyResponse.customers.forEach(c => {
-                if (c.email === email) {
-                  matchingCust = true;
+  verifier.verify(email, (err, info) => {
+    if (err) {
+      res.status(200).send({ success: false, err });
+    } else {
+      if (!info.success) {
+        res.status(200).send({ success: false, err: 'Invalid email address, please try another.' });
+      } else {
+        if (shop && shop.split('.').length) {
+          findShopByName(shop.split('.')[0]).then(s => {
+            if (s) {
+              const Shopify = makeShopify(s);
+              Shopify.get('/admin/customers/search.json?query=' + email, (err, shopifyResponse) => {
+                if (err) {
+                  errRes(res)(err);
+                } else {
+                  if (shopifyResponse.customers && shopifyResponse.customers.length > 0) {
+                    let matchingCust = false;
+                    shopifyResponse.customers.forEach(c => {
+                      if (c.email === email) {
+                        matchingCust = true;
+                      }
+                    });
+                    if (matchingCust) {
+                      res.status(200).send({ success: false, err: 'A customer already exists with an email matching that name' });
+                    } else {
+                      res.status(200).send({ success: true });
+                    }
+                  } else {
+                    res.status(200).send({ success: true });
+                  }
                 }
               });
-              if (matchingCust) {
-                res.status(200).send({ success: false, err: 'A customer already exists with an email matching that name' });
-              } else {
-                res.status(200).send({ success: true });
-              }
             } else {
-              res.status(200).send({ success: true });
+              res.status(200).send({ success: true, madeCustomer: false });
             }
-          }
-        });
-      } else {
-        res.status(200).send({ success: true, madeCustomer: false });
+          })
+        } else {
+          errRes(res)('Failed to parse shop');
+        }    
       }
-    })
-  } else {
-    errRes(res)('Failed to parse shop');
-  }
+    }
+  });
 };
 
 export function postSubscribe(req, res) {
