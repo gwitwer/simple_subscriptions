@@ -3,6 +3,7 @@ import Shop from '../models/shop';
 export function uninstall(req, res) {
   console.log(req.headers['x-generated-signature']);
   console.log(req.headers['x-shopify-shop-domain'].split('.')[0]);
+  console.log(req.headers);
   if (req.headers['x-generated-signature'] === req.headers['x-shopify-hmac-sha256']) {
     console.log('UNINSTALL HOOKS');
     Shop.findOne({ name: req.headers['x-shopify-shop-domain'].split('.')[0] }, (err, s) => {
