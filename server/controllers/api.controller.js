@@ -6,6 +6,30 @@ const { findShopByName } = require('../util/queryShop')(Shop);
 const { makeShopify } = require('../util/makeShopify');
 const stripe = stripePackage(getStripeKey());
 
+export function getVerifyCustomer(req, res) {
+  const { email } = req.params;
+
+  if (shop && shop.split('.').length) {
+    findShopByName(shop.split('.')[0]).then(s => {
+      if (s) {
+        const Shopify = makeShopify(s);
+        Shopify.get('/admin/customers/search.json?query=' + email, (err, shopifyResponse) => {
+          if (err) {
+            errRes(res)(err);
+          } else {
+            console.log(shopifyResponse);
+            res.status(200).send({ success: true });
+          }
+        });
+      } else {
+        res.status(200).send({ success: true, madeCustomer: false });
+      }
+    })
+  } else {
+    errRes(res)('Failed to parse shop');
+  }
+};
+
 export function postSubscribe(req, res) {
   const {
     email,
@@ -70,6 +94,8 @@ export function postSubscribe(req, res) {
         }).catch(errRes(res));
       }).catch(errRes(res));
     }).catch(errRes(res));
+  } else {
+    errRes(res)('Failed to parse shop');
   }
 };
 
