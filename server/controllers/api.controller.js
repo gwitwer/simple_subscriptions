@@ -19,7 +19,7 @@ export function postSubscribe(req, res) {
   } = req.body;
   console.log(req.body);
 
-  if (shop && shop.split['.'].length) {
+  if (shop && shop.split('.').length) {
     findShopByName(shop.split('.')[0]).then(s => {
       console.log(s);
       const createCustomer = stripe.customers.create({
