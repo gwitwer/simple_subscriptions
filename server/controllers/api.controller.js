@@ -56,7 +56,7 @@ export function postSubscribe(req, res) {
               send_email_welcome: true,
             };
             console.log(cObj);
-            Shopify.post('/admin/customers.json', cObj, (err, shopifyResponse) => {
+            Shopify.post('/admin/customers.json', { customer: cObj }, (err, shopifyResponse) => {
               if (err) {
                 errRes(res)(err);
               } else {
