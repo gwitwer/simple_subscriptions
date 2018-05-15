@@ -23,7 +23,7 @@ export function postSubscribe(req, res) {
       // TODO: make shopify customer!
       console.log(r);
       res.status(200).send({ success: true });
-    }).catch(err => res.status(200).send({ success: false, err }););
+    }).catch(err => res.status(200).send({ success: false, err }));
   }).catch(err => res.status(200).send({ success: true }));
 };
 
