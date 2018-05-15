@@ -4,6 +4,7 @@ import Shop from '../models/shop';
 const stripe = stripePackage(getStripeKey());
 
 export function postSubscribe(req, res) {
+  console.log('here', req.body);
   const { email, source, coupon, quantity, pass } = req.body;
   const createCustomer = stripe.customers.create({
     email,
@@ -22,8 +23,8 @@ export function postSubscribe(req, res) {
       // TODO: make shopify customer!
       console.log(r);
       res.status(200).send({ success: true });
-    });
-  });
+    }).catch(err => res.status(200).send({ success: false, err }););
+  }).catch(err => res.status(200).send({ success: true }));
 };
 
 export function getVerifyCoupon(req, res) {
