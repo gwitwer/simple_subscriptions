@@ -12,7 +12,7 @@ export function postVerifyCustomer(req, res) {
 
   verifier.verify(email, (err, info) => {
     if (err) {
-      res.status(200).send({ success: false, err });
+      res.status(200).send({ success: false, err: 'Invalid email address, please try another.' });
     } else {
       if (!info.success) {
         res.status(200).send({ success: false, err: 'Invalid email address, please try another.' });
@@ -48,7 +48,7 @@ export function postVerifyCustomer(req, res) {
           })
         } else {
           errRes(res)('Failed to parse shop');
-        }    
+        }
       }
     }
   });
