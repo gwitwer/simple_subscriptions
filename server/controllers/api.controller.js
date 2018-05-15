@@ -54,10 +54,14 @@ export function postSubscribe(req, res) {
               password: pass,
               password_confirmation: pass,
               send_email_welcome: true,
-            }).then(shopifyResponse => {
-              console.log(shopifyResponse);
-              res.status(200).send({ success: true, madeCustomer: true });
-            }).catch(errRes(res));
+            }, (err, shopifyResponse) => {
+              if (err) {
+                errRes(res)(err);
+              } else {
+                console.log(shopifyResponse);
+                res.status(200).send({ success: true, madeCustomer: true });  
+              }
+            });
           } else {
             res.status(200).send({ success: true, madeCustomer: false });
           }
