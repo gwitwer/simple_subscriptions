@@ -33,7 +33,7 @@ export function postVerifyCustomer(req, res) {
                       }
                     });
                     if (matchingCust) {
-                      res.status(200).send({ success: false, err: 'A customer already exists with an email matching that name' });
+                      res.status(200).send({ success: false, err: 'A customer already exists for that email. Please log in or reach out to isaac@contentcucumber.com.' });
                     } else {
                       res.status(200).send({ success: true });
                     }
@@ -80,7 +80,7 @@ export function postSubscribe(req, res) {
           coupon,
           quantity,
           customer: customer.id,
-          plan: 'plan_CrdgURQLwHviS0', // boldmemberships_16604 // TODO: this is entered in the front-end of the app.
+          plan: 'boldmemberships_16548', // 'plan_CrdgURQLwHviS0', // boldmemberships_16604 // TODO: this is entered in the front-end of the app.
         });
 
         createSubscription.then(r => {
