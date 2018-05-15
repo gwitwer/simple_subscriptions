@@ -9,6 +9,7 @@ module.exports = Shop => {
       callback(shopifyCreds.testStore);
     } else {
       console.log(`FIND ${name}`);
+      console.log(shopifyCreds);
       Shop.findOne({ name }, (err, shop) => {
         // console.log(!!shop, shop.access_token);
         // if (typeof(shop.installing) === 'undefined') {
