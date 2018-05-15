@@ -10,20 +10,21 @@ import { DisplayText } from "@shopify/polaris";
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
+import hadany from '../../hadany.jpg'
+
 class AdminDashboard extends Component {
 
-  componentWillMount() {
-    // This is for stopping unauthorized access of this page
-    // if (!this.props.user || this.props.user.type !== 'admin') {
-    //   this.context.router.push('/');
-    // }
-  }
+  // componentWillMount() {
+  //   This is for stopping unauthorized access of this page
+  //   if (!this.props.user || this.props.user.type !== 'admin') {
+  //     this.context.router.push('/');
+  //   }
+  // }
 
   render() {
     return (
-      <div>
-        <div>My coupons</div>
-        <div>My subscriptions</div>
+      <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
+        <img src={hadany} />
       </div>
     );
   }

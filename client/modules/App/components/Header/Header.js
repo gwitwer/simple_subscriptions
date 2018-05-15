@@ -10,13 +10,8 @@ export function Header(props, context) {
     <div className={styles.header}>
       <div className={styles.content}>
         <DisplayText size="large">
-          <Link to="/" >Simple Subsriptions</Link>
+          <Link to="/">Simple Subsriptions</Link>
         </DisplayText>
-        {
-          context.router.isActive('/', true)
-            ? <a className={styles['add-post-button']} href="#" onClick={props.toggleAddPost}>Add Post</a>
-            : null
-        }
       </div>
     </div>
   );
