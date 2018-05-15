@@ -1,10 +1,29 @@
 import stripePackage from 'stripe';
 import getStripeKey from '../util/getStripeKey';
+import Shop from '../models/shop';
 const stripe = stripePackage(getStripeKey());
 
 export function postSubscribe(req, res) {
-  console.log(req.body);
-  res.status(200).send({ success: true });
+  const { email, source, coupon, quantity, pass } = req.body;
+  const createCustomer = stripe.customers.create({
+    email,
+    source,
+  });
+
+  createCustomer.then(customer => {
+    const createSubscription = stripe.subscriptions.create({
+      coupon,
+      quantity,
+      customer: customer.id,
+      plan: 'plan_ColfvEHF6Z67MO', // boldmemberships_16604 // TODO: this is entered in the front-end of the app.
+    });
+
+    createSubscription.then(r => {
+      // TODO: make shopify customer!
+      console.log(r);
+      res.status(200).send({ success: true });
+    });
+  });
 };
 
 export function getVerifyCoupon(req, res) {
