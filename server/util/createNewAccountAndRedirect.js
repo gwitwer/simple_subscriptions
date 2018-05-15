@@ -23,7 +23,7 @@ module.exports = Shop => {
             shop: name,
             shopify_api_key: shopifyCreds.key,
             access_token: shopifyCreds.secret,
-            redirect_uri: `${shopifyCreds.redirect_uri}/auth/finish_auth`,
+            redirect_uri: `${shopifyCreds.redirect_uri}/auth/finish_auth/`,
             shopify_scope: 'read_customers, read_content, write_content, write_customers', // https://help.shopify.com/api/getting-started/authentication/oauth#scopes
             nonce: shop._id.toString()
           });
@@ -32,14 +32,13 @@ module.exports = Shop => {
           res.redirect(auth_url);
         } else {
           console.log('Creating new account for ' + name);
-          console.log(shopifyCreds);
           (new Shop({ name, installing: true })).save((err, s) => {
             console.log(err, s);
             const Shopify = new shopifyAPI({
               shop: name,
               shopify_api_key: shopifyCreds.key,
               access_token: shopifyCreds.secret,
-              redirect_uri: `${shopifyCreds.redirect_uri}/auth/finish_auth`,
+              redirect_uri: `${shopifyCreds.redirect_uri}/auth/finish_auth/`,
               shopify_scope: 'read_customers, read_content, write_content, write_customers', // https://help.shopify.com/api/getting-started/authentication/oauth#scopes
               nonce: s._id.toString()
             });
