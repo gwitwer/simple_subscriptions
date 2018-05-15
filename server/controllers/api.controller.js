@@ -1,29 +1,70 @@
 import stripePackage from 'stripe';
 import getStripeKey from '../util/getStripeKey';
 import Shop from '../models/shop';
+import errRes from '../util/errRes';
+const { findShopByName } = require('../util/queryShop');
+const { makeShopify } = require('../util/makeShopify');
 const stripe = stripePackage(getStripeKey());
 
 export function postSubscribe(req, res) {
-  const { email, source, coupon, quantity, pass } = req.body;
-  const createCustomer = stripe.customers.create({
+  const {
     email,
     source,
-  });
+    coupon,
+    quantity,
+    pass,
+    shop,
+    first_name,
+    last_name,
+  } = req.body;
+  console.log(req.body);
 
-  createCustomer.then(customer => {
-    const createSubscription = stripe.subscriptions.create({
-      coupon,
-      quantity,
-      customer: customer.id,
-      plan: 'plan_CrdgURQLwHviS0', // boldmemberships_16604 // TODO: this is entered in the front-end of the app.
-    });
+  if (shop && shop.split['.'].length) {
+    findShopByName(shop.split('.')[0]).then(s => {
+      console.log(s);
+      const createCustomer = stripe.customers.create({
+        email,
+        source,
+      });
 
-    createSubscription.then(r => {
-      // TODO: make shopify customer!
-      console.log(r);
-      res.status(200).send({ success: true });
-    }).catch(err => res.status(200).send({ success: false, err }));
-  }).catch(err => res.status(200).send({ success: true }));
+      createCustomer.then(customer => {
+        const createSubscription = stripe.subscriptions.create({
+          coupon,
+          quantity,
+          customer: customer.id,
+          plan: 'plan_CrdgURQLwHviS0', // boldmemberships_16604 // TODO: this is entered in the front-end of the app.
+        });
+
+        createSubscription.then(r => {
+          console.log(r);
+          // TODO: make shopify customer!
+          if (s) {
+            const Shopify = makeShopify(s);
+            Shopify.post('/admin/customers.json', {
+              first_name,
+              last_name,
+              email,
+              verified_email: true,
+              metafields: [{
+                key: 'stripe_customer_id',
+                value: customer.id,
+                value_type: 'string',
+                namespace: 'global'
+              }],
+              password: pass,
+              password_confirmation: pass,
+              send_email_welcome: true,
+            }).then(shopifyResponse => {
+              console.log(shopifyResponse);
+              res.status(200).send({ success: true, madeCustomer: true });
+            }).catch(errRes(res));
+          } else {
+            res.status(200).send({ success: true, madeCustomer: false });
+          }
+        }).catch(errRes(res));
+      }).catch(errRes(res));
+    }).catch(errRes(res));
+  }
 };
 
 export function getVerifyCoupon(req, res) {
