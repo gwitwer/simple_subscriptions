@@ -17,8 +17,21 @@ export function postVerifyCustomer(req, res) {
           if (err) {
             errRes(res)(err);
           } else {
-            console.log(shopifyResponse);
-            res.status(200).send({ success: true });
+            if (shopifyResponse.customers && shopifyResponse.customers.length > 0) {
+              let matchingCust = false;
+              shopifyResponse.customers.forEach(c => {
+                if (c.email === email) {
+                  matchingCust = true;
+                }
+              });
+              if (matchingCust) {
+                res.status(200).send({ success: false, err: 'A customer already exists with an email matching that name' });
+              } else {
+                res.status(200).send({ success: true });
+              }
+            } else {
+              res.status(200).send({ success: true });
+            }
           }
         });
       } else {
