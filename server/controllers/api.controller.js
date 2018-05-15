@@ -42,26 +42,28 @@ export function getVerifyCoupon(req, res) {
     // times_redeemed: 0, // if max_redemptions > 0, times_redeemed must be less than max_redemptions
   };
   stripe.coupons.list((err, coupons) => {
-    console.log(coupons);
-    coupons.data.forEach(coupon => {
-      if (coupon.id === id) {
-        Object.keys(response).forEach(k => {
-          response[k] = coupon[k];
-        });
-        response.valid = (
-          coupon.valid &&
-          (
-            !coupon.max_redemptions ||
-            (coupon.max_redemptions > 0 && coupon.max_redemptions > coupon.times_redeemed)
-          ) &&
-          (
-            !coupon.redeem_by ||
-            (Date.now() < (coupon.redeem_by * 1000))
-          )
-        );
-        console.log(response);
-      }
-    });
+    console.log(err, coupons);
+    if (coupons.data) {
+      coupons.data.forEach(coupon => {
+        if (coupon.id === id) {
+          Object.keys(response).forEach(k => {
+            response[k] = coupon[k];
+          });
+          response.valid = (
+            coupon.valid &&
+            (
+              !coupon.max_redemptions ||
+              (coupon.max_redemptions > 0 && coupon.max_redemptions > coupon.times_redeemed)
+            ) &&
+            (
+              !coupon.redeem_by ||
+              (Date.now() < (coupon.redeem_by * 1000))
+            )
+          );
+          console.log(response);
+        }
+      });
+    }
 
     res.json(response);
   });
