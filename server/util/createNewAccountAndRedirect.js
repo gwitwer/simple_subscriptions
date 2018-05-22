@@ -3,6 +3,7 @@ const shopifyAPI = require('shopify-node-api');
 
 module.exports = Shop => {
   const createNewAccountAndRedirect = (name, res, callback) => {
+    console.log(shopifyCreds);
     console.log('CREATE_NEW_ACCOUNT_AND_REDIRECT');
     if (process.env.NODE_ENV !== 'production') {
       console.log('callback...');
