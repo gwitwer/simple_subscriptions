@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = () => {
+  console.log(process.env);
   const redirect_uri = process.env.SERVER === 'production'
                         ? 'https://simple-subscriptions.com'
                         : 'https://simple-subscriptions.com'

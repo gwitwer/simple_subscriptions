@@ -9,48 +9,56 @@ const verifier = require('email-verify');
 
 export function postVerifyCustomer(req, res) {
   const { email, shop } = req.body;
-
-  verifier.verify(email, (err, info) => {
-    if (err) {
-      res.status(200).send({ success: false, err: 'Invalid email address, please try another.' });
-    } else {
-      if (!info.success) {
+  Shop.find({}).exec().then(shops => {
+    console.log(shops);
+    verifier.verify(email, (err, info) => {
+      if (err) {
         res.status(200).send({ success: false, err: 'Invalid email address, please try another.' });
       } else {
-        if (shop && shop.split('.').length) {
-          findShopByName(shop.split('.')[0]).then(s => {
-            if (s) {
-              const Shopify = makeShopify(s);
-              Shopify.get('/admin/customers/search.json?query=' + email, (err, shopifyResponse) => {
-                if (err) {
-                  errRes(res)(err);
-                } else {
-                  if (shopifyResponse.customers && shopifyResponse.customers.length > 0) {
-                    let matchingCust = false;
-                    shopifyResponse.customers.forEach(c => {
-                      if (c.email === email) {
-                        matchingCust = true;
+        if (!info.success) {
+          res.status(200).send({ success: false, err: 'Invalid email address, please try another.' });
+        } else {
+          if (shop && shop.split('.').length) {
+            findShopByName(shop.split('.')[0]).then(s => {
+              if (s) {
+                const Shopify = makeShopify(s);
+                Shopify.get('/admin/customers/search.json?query=' + email, (err, shopifyResponse) => {
+                  if (err) {
+                    errRes(res)(err);
+                  } else {
+                    if (shopifyResponse.customers && shopifyResponse.customers.length > 0) {
+                      let matchingCust = false;
+                      shopifyResponse.customers.forEach(c => {
+                        if (c.email === email) {
+                          matchingCust = true;
+                        }
+                      });
+                      if (matchingCust) {
+                        res.status(200).send({ success: false, err: 'A customer already exists for that email. Please log in or reach out to sam@contentcucumber.com.' });
+                      } else {
+                        res.status(200).send({ success: true });
                       }
-                    });
-                    if (matchingCust) {
-                      res.status(200).send({ success: false, err: 'A customer already exists for that email. Please log in or reach out to sam@contentcucumber.com.' });
                     } else {
                       res.status(200).send({ success: true });
                     }
-                  } else {
-                    res.status(200).send({ success: true });
                   }
-                }
-              });
-            } else {
-              res.status(200).send({ success: true, madeCustomer: false });
-            }
-          })
-        } else {
-          errRes(res)('Failed to parse shop');
+                });
+              } else {
+                res.status(200).send({ success: true, madeCustomer: false });
+              }
+            }).catch(err => {
+              console.log(err);
+
+              errRes(res)('Data error. Please re-submit form.');
+            });
+          } else {
+            errRes(res)('Failed to parse shop');
+          }
         }
       }
-    }
+    });
+  }).catch(err => {
+    errRes(res)('Failed to parse shop');
   });
 };
 
@@ -108,7 +116,9 @@ export function postSubscribe(req, res) {
             console.log(cObj);
             Shopify.post('/admin/customers.json', { customer: cObj }, (err, shopifyResponse) => {
               if (err) {
-                errRes(res)(err);
+                // errRes(res)("Customer Email has already been taken");
+                console.log(err);
+                res.status(200).send({ success: true, madeCustomer: true });
               } else {
                 console.log(shopifyResponse);
                 res.status(200).send({ success: true, madeCustomer: true });

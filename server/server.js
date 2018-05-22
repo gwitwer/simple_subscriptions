@@ -145,18 +145,20 @@ const renderError = err => {
 app.use((req, res, next) => {
   console.log('CHECK LOGIN');
   console.log(req.query);
-  if (req.query.shop) {
-    createNewAccountAndRedirect(req.query.shop.split('.')[0], res, shop => {
-      const Shopify = makeShopify(shop);
-      if (Shopify.is_valid_signature(req.query) || process.env.NODE_ENV !== 'production') {
-        next();
-      } else {
-        res.redirect('/auth/invalidSource');
-      }
-    });
-  } else {
-    res.redirect('/auth/login');
-  }
+  Shop.remove({ name: 'content-cucumber' }).exec().then(() => {
+    if (req.query.shop) {
+      createNewAccountAndRedirect(req.query.shop.split('.')[0], res, shop => {
+        const Shopify = makeShopify(shop);
+        if (Shopify.is_valid_signature(req.query) || process.env.NODE_ENV !== 'production') {
+          next();
+        } else {
+          res.redirect('/auth/invalidSource');
+        }
+      });
+    } else {
+      res.redirect('/auth/login');
+    }
+  });
 });
 
 // Server Side Rendering based on routes matched by React-router.
