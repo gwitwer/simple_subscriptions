@@ -10,6 +10,7 @@ module.exports = () => {
       redirect_uri = 'https://simple-subscriptions.com';
     }
   }
+  console.log(redirect_uri);
 
   if (process.env.NODE_ENV === 'production') {
     return {
