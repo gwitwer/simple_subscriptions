@@ -3,7 +3,7 @@
 module.exports = () => {
   console.log(process.env.REDIRECT_URI);
   let redirect_uri = 'http://localhost:8000';
-  if (process.env.SERVER === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     if (process.env.REDIRECT_URI) {
       redirect_uri = process.env.REDIRECT_URI;
     } else {
