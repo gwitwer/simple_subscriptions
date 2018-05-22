@@ -14,7 +14,11 @@ const {
 
 const { createNewAccountAndRedirect } = require('../util/createNewAccountAndRedirect')(Shop);
 
-const appName = 'simple-subscriptions';
+const appName = process.env.MAIN_URL
+                  ? process.env.MAIN_URL
+                  : 'simple-subscriptions'
+
+console.log('APP NAME IS ' + appName);
 
 const {
   findShopById,
