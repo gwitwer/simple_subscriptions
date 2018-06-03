@@ -9,6 +9,7 @@ const verifier = require('email-verify');
 
 export function postVerifyCustomer(req, res) {
   const { email, shop } = req.body;
+console.log('HERE', req.body);
 
   verifier.verify(email, (err, info) => {
     if (err) {
@@ -19,6 +20,7 @@ export function postVerifyCustomer(req, res) {
       } else {
         if (shop && shop.split('.').length) {
           findShopByName(shop.split('.')[0]).then(s => {
+console.log(s);
             if (s) {
               const Shopify = makeShopify(s);
               Shopify.get('/admin/customers/search.json?query=' + email, (err, shopifyResponse) => {
@@ -45,7 +47,10 @@ export function postVerifyCustomer(req, res) {
             } else {
               res.status(200).send({ success: true, madeCustomer: false });
             }
-          })
+          }).catch(err => {
+              console.log(err);
+              errRes(res)('Data error. Please re-submit form.');
+            });
         } else {
           errRes(res)('Failed to parse shop');
         }
@@ -108,7 +113,8 @@ export function postSubscribe(req, res) {
             console.log(cObj);
             Shopify.post('/admin/customers.json', { customer: cObj }, (err, shopifyResponse) => {
               if (err) {
-                errRes(res)(err);
+console.log(err);
+                res.status(200).send({ success: true, madeCustomer: true });
               } else {
                 console.log(shopifyResponse);
                 res.status(200).send({ success: true, madeCustomer: true });
