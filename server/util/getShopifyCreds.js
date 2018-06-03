@@ -3,7 +3,7 @@
 module.exports = () => {
   const redirect_uri = process.env.SERVER === 'production'
                         ? 'https://simple-subscriptions.com'
-                        : 'https://simple-subscriptions.com'
+                        : 'https://simple-subscriptions.com';
   if (process.env.NODE_ENV === 'production') {
     return {
       redirect_uri,

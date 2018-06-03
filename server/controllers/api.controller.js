@@ -69,6 +69,7 @@ export function postSubscribe(req, res) {
     shop,
     first_name,
     last_name,
+    plan,
   } = req.body;
   console.log(req.body);
 
@@ -84,8 +85,9 @@ export function postSubscribe(req, res) {
         const createSubscription = stripe.subscriptions.create({
           coupon,
           quantity,
+          plan,
           customer: customer.id,
-          plan: 'boldmemberships_16604', // 'plan_CrdgURQLwHviS0', // 'boldmemberships_16548' // TODO: this is entered in the front-end of the app.
+          // plan// 'boldmemberships_16604', // 'plan_CrdgURQLwHviS0', // 'boldmemberships_16548' // TODO: this is entered in the front-end of the app.
         });
 
         createSubscription.then(r => {
