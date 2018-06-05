@@ -1,17 +1,9 @@
 'use strict';
 
 module.exports = () => {
-  console.log(process.env.REDIRECT_URI);
-  let redirect_uri = 'http://localhost:8000';
-  if (process.env.NODE_ENV === 'production') {
-    if (process.env.REDIRECT_URI) {
-      redirect_uri = process.env.REDIRECT_URI;
-    } else {
-      redirect_uri = 'https://simple-subscriptions.com';
-    }
-  }
-  console.log(redirect_uri);
-
+  const redirect_uri = process.env.SERVER === 'production'
+                        ? 'https://simple-subscriptions.com'
+                        : 'http://localhost:8000';
   if (process.env.NODE_ENV === 'production') {
     return {
       redirect_uri,

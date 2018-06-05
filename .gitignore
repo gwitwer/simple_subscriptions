@@ -4,11 +4,11 @@ npm-debug.log
 .idea/
 dump.rdb
 .vscode/
-public/*
 dist
 coverage/
 .nyc_output/
 kynect-key-pair.pem
+ss-key-pair.pem
 db/
 config/keys
 doStripe.js
