@@ -142,14 +142,9 @@ const renderError = err => {
 };
 
 // Logged in middleware for main app
-// Logged in middleware for main app
 app.use((req, res, next) => {
   console.log('CHECK LOGIN');
   console.log(req.query);
-<<<<<<< HEAD
-  Shop.remove({ name: 'content-cucumber' }).exec().then(() => {
-=======
->>>>>>> 7d437e819f41695e42353dd2618b3f3ab677f812
     if (req.query.shop) {
       createNewAccountAndRedirect(req.query.shop.split('.')[0], res, shop => {
         const Shopify = makeShopify(shop);
@@ -162,10 +157,6 @@ app.use((req, res, next) => {
     } else {
       res.redirect('/auth/login');
     }
-<<<<<<< HEAD
-  });
-=======
->>>>>>> 7d437e819f41695e42353dd2618b3f3ab677f812
 });
 
 // Server Side Rendering based on routes matched by React-router.

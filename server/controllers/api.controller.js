@@ -2,14 +2,15 @@ import stripePackage from 'stripe';
 import getStripeKey from '../util/getStripeKey';
 import Shop from '../models/shop';
 import errRes from '../util/errRes';
+import contact from '../util/contact';
 const { findShopByName } = require('../util/queryShop')(Shop);
 const { makeShopify } = require('../util/makeShopify');
 const stripe = stripePackage(getStripeKey());
 const verifier = require('email-verify');
 
 export function postVerifyCustomer(req, res) {
-  const { email, shop } = req.body;
-console.log('HERE', req.body);
+  const { email, shop, detail, first, last } = req.body;
+  console.log('HERE', req.body);
 
   verifier.verify(email, (err, info) => {
     if (err) {
@@ -33,9 +34,14 @@ console.log('HERE', req.body);
                       if (c.email === email) {
                         matchingCust = true;
                       }
+                    })
+                    if (matchingCust) {
+                      res.status(200).send({ err: 'A customer already exists with that email address' });
                     } else {
                       res.status(200).send({ success: true });
                     }
+                  } else {
+                    res.status(200).send({ success: true });
                   }
                 }
               });
@@ -50,9 +56,7 @@ console.log('HERE', req.body);
           errRes(res)('Failed to parse shop');
         }
       }
-    });
-  }).catch(err => {
-    errRes(res)('Failed to parse shop');
+    }
   });
 };
 
@@ -66,6 +70,7 @@ export function postSubscribe(req, res) {
     shop,
     first_name,
     last_name,
+    detail,
     plan,
   } = req.body;
   console.log(req.body);
@@ -111,12 +116,22 @@ export function postSubscribe(req, res) {
             };
             console.log(cObj);
             Shopify.post('/admin/customers.json', { customer: cObj }, (err, shopifyResponse) => {
-              if (err) {
-                res.status(200).send({ success: true, madeCustomer: true });
-              } else {
-                console.log(shopifyResponse);
-                res.status(200).send({ success: true, madeCustomer: true });
-              }
+              const sendPostContactRes = msg => {
+                console.log(msg);
+                if (err) {
+                  res.status(200).send({ success: true, madeCustomer: false });
+                } else {
+                  console.log(shopifyResponse);
+                  res.status(200).send({ success: true, madeCustomer: true });
+                }
+              };
+
+              contact({
+                to: 'gdavid.witwer@gmail.com',
+                html: `<div><div>First name: ${first_name}</div><div>Last name: ${last_name}</div><div>Details: ${detail}</div><div>Plan: ${plan}</div><div>Coupon: ${coupon}</div></div>`
+              }).then(() => {
+                sendPostContactRes('Success');
+              }).catch(sendPostContactRes)
             });
           } else {
             res.status(200).send({ success: true, madeCustomer: false });
